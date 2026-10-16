@@ -14,3 +14,12 @@ VALUES
 (4, 'Tech');
 
 SELECT * FROM departments;
+
+
+
+-- Rename Column Name
+ALTER TABLE departments
+RENAME COLUMN departments_id TO department_id; -- rename column
+
+ALTER TABLE departments
+RENAME COLUMN departments_name TO department_name; -- rename column
