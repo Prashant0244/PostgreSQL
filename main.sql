@@ -81,3 +81,5 @@ DROP COLUMN hr_note;
 
 SELECT *
 FROM employees;
+
+-- ! DDL (Data Definition Language) End
