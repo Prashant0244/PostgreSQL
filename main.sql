@@ -83,3 +83,7 @@ SELECT *
 FROM employees;
 
 -- ! DDL (Data Definition Language) End
+
+
+
+-- DML (Data Manipulation Language) Start --->
