@@ -72,3 +72,6 @@ ADD COLUMN internal_note VARCHAR(100) NOT NULL DEFAULT 'N/A';
 
 SELECT *
 FROM employees;
+
+ALTER TABLE employees
+RENAME COLUMN internal_note TO hr_note;
