@@ -66,3 +66,9 @@ FROM departments;
 INSERT INTO employees (first_name, last_name, email, department_id, job_title, salary, manager_id, hire_date) VALUES
     ('Priya',  'Nair',      'priya.nair@techbazaar.com',      1, 'Sales Representative', 62000.00, 1,    '2020-06-15');
 
+
+ALTER TABLE employees
+ADD COLUMN internal_note VARCHAR(100) NOT NULL DEFAULT 'N/A';
+
+SELECT *
+FROM employees;
