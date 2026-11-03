@@ -75,3 +75,9 @@ FROM employees;
 
 ALTER TABLE employees
 RENAME COLUMN internal_note TO hr_note;
+
+ALTER TABLE employees
+DROP COLUMN hr_note;
+
+SELECT *
+FROM employees;
