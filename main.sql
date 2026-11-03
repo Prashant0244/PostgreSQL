@@ -57,3 +57,9 @@ INSERT INTO employees (first_name, last_name, email, department_id, job_title, s
     ('Diego',  'Fernandez', 'diego.fernandez@techbazaar.com', 2, 'Support Agent',        46000.00, 5,    '2023-01-09'),
     ('Sara',   'Osei',      'sara.osei@techbazaar.com',       5, 'Warehouse Lead',       55000.00, NULL, '2020-08-23');
 
+SELECT *
+FROM employees;
+
+SELECT *
+FROM departments;
+
