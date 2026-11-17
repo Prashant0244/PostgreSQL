@@ -428,3 +428,99 @@ UNION ALL SELECT 'customers',    COUNT(*) FROM customers
 UNION ALL SELECT 'orders',       COUNT(*) FROM orders
 UNION ALL SELECT 'order_items',  COUNT(*) FROM order_items
 UNION ALL SELECT 'payments',     COUNT(*) FROM payments;
+
+
+-- DQL - Data Query Language and Pagination
+SELECT * FROM products;
+
+SELECT
+    product_name,
+    price,
+    stock_quantity AS quantity
+FROM
+    products;
+
+SELECT * FROM customers;
+
+SELECT
+    DISTINCT country
+FROM
+    customers;
+
+SELECT
+    DISTINCT TRIM(country)
+FROM
+    customers;
+
+SELECT
+    product_name
+FROM
+    products
+WHERE
+    price > 100;
+
+SELECT 
+    * 
+FROM 
+    products
+WHERE
+    stock_quantity > 0 
+    AND price > 150;
+
+SELECT
+    product_name,
+    price,
+    stock_quantity
+FROM
+    products
+WHERE
+    stock_quantity = 0
+    OR price < 150;
+
+SELECT *
+FROM products
+WHERE is_active = FALSE;
+
+SELECT *
+FROM products
+WHERE NOT is_active;
+
+SELECT
+    *
+FROM
+    products
+WHERE
+    price > 100 AND price < 200;
+
+SELECT
+    *
+FROM
+    products
+WHERE
+    price BETWEEN 100 AND 200;
+
+SELECT * FROM categories;
+
+SELECT 
+    *
+FROM 
+    products
+WHERE 
+    category_id = 1 
+    OR category_id = 3
+    OR category_id = 4;
+
+SELECT 
+    *
+FROM 
+    products
+WHERE 
+    category_id IN (1, 3, 4, 5);
+
+SELECT 
+    *
+FROM 
+    products
+WHERE 
+    product_name LIKE 'Wireless%';
+
