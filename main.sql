@@ -160,3 +160,23 @@ CREATE TABLE payments (
     status         VARCHAR(20) NOT NULL DEFAULT 'success'
                    CHECK (status IN ('success', 'failed', 'refunded'))
 );
+
+-- ! INSERT < UPDATE < DELETE are called DML - Data Manipulation Language
+
+INSERT INTO customers (first_name, last_name, email, phone, city, country) VALUES
+    ('Jon', 'Dae', 'jon1dae@mail.com', '9281298298', 'Mumbai', 'India');
+
+SELECT * FROM customers;
+
+INSERT INTO categories (category_name, description) VALUES
+    ('Phone', 'Phone description'),
+    ('Car', 'Car description');
+
+SELECT * FROM categories;
+
+UPDATE categories
+SET description = 'Vehicle details'
+WHERE category_id = 2;
+
+DELETE FROM categories
+WHERE category_id = 4;
