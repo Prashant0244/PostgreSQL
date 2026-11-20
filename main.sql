@@ -524,3 +524,52 @@ FROM
 WHERE 
     product_name LIKE 'Wireless%';
 
+SELECT * 
+FROM products
+WHERE 
+    product_name LIKE '%less%';
+
+INSERT INTO products (category_id, product_name, price, stock_quantity) VALUES
+    (1, 'Wireless Keyboard', 119, 50),
+    (1, 'Wireless Printer', 399, 110);
+
+SELECT * FROM customers
+WHERE phone IS NULL;
+
+SELECT * FROM customers
+WHERE phone IS NOT NULL;
+
+SELECT
+    first_name,
+    last_name,
+    COALESCE(phone, 'Phone number unavailable') AS phone,
+    COALESCE(city, 'City unavailable') AS city
+FROM
+    customers;
+
+SELECT * FROM products
+ORDER BY price DESC;
+
+SELECT *
+FROM products
+ORDER BY
+    category_id DESC,
+    price;
+
+SELECT * FROM products
+ORDER BY price DESC
+LIMIT 5;
+
+-- ! PAGINATION
+SELECT * FROM products
+ORDER BY product_id
+LIMIT 10
+OFFSET 0;
+
+SELECT * FROM products
+ORDER BY product_id
+LIMIT 10
+OFFSET 10;
+
+-- Offset =  (page - 1) * limit => Backend Logic
+
