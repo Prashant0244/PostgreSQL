@@ -573,3 +573,6 @@ OFFSET 10;
 
 -- Offset =  (page - 1) * limit => Backend Logic
 
+
+--> JOIN in SQL -->
+
