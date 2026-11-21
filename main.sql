@@ -576,3 +576,41 @@ OFFSET 10;
 
 --> JOIN in SQL -->
 
+-- ! Give me all orders including employee details of the employee who processed that order
+SELECT *
+FROM orders AS o
+JOIN employees AS e ON o.employee_id = e.employee_id
+WHERE status = 'completed'
+-- JOIN = INNER JOIN (Default)
+
+-- ! Give me all orders and include employee details of employee who processed that order and if it is directly coming from customer keep employee details empty
+SELECT
+    o.status,
+    o.order_id,
+    e.first_name
+FROM orders AS O
+LEFT JOIN employees AS e ON o.employee_id = e.employee_id
+
+
+-- ! Give me all orders including employee first name which customer purchased by employee
+SELECT
+    o.status,
+    o.order_id,
+    e.first_name
+FROM orders AS O
+RIGHT JOIN employees AS e ON o.employee_id = e.employee_id
+
+-- ! Give me all orders including employee full name include empty data too
+SELECT
+    o.status,
+    o.order_id,
+    CONCAT(e.first_name,' ',e.last_name) AS employee_name
+FROM orders AS o
+FULL OUTER JOIN employees AS e ON o.employee_id = e.employee_id
+-- FULL JOIN = FULL OUTER JOIN (Default)
+
+-- ! CROSS JOIN -> combines every row from the first table with every row from the second table.
+SELECT *
+FROM departments
+CROSS JOIN categories;
+
