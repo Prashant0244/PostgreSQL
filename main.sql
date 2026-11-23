@@ -665,3 +665,42 @@ LEFT JOIN employees AS m ON e.manager_id = m.employee_id
 
 
 --> Aggregate in SQL -->
+
+-- ! Give me total count of customer
+SELECT
+    COUNT(*) AS customer_count, -- include NULL
+    COUNT(phone) AS customer_phone -- exclude NULL
+FROM customers;
+
+SELECT DISTINCT country FROM customers;
+
+SELECT COUNT(DISTINCT country) FROM customers;
+
+-- ! Give me revenue across all orders till now
+SELECT
+    SUM(unit_price*quantity) AS revenue
+FROM order_items;
+
+-- ! Give average price across all products
+SELECT 
+    ROUND(AVG(price), 2) AS avg_price
+FROM products
+
+-- ! Give me min and max price across all products
+SELECT price FROM products ORDER BY price ASC;
+
+SELECT price FROM products ORDER BY price DESC LIMIT 1;
+
+SELECT
+    MIN(price),
+    MAX(price)
+FROM products
+
+SELECT
+    COUNT(*) AS total_product,
+    ROUND(AVG(price),2) AS avg_price,
+    MIN(price) AS min_price,
+    MAX(price) AS max_price,
+    SUM(stock_quantity) AS total_stocks
+FROM products
+
