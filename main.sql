@@ -614,3 +614,52 @@ SELECT *
 FROM departments
 CROSS JOIN categories;
 
+-- ! Give me all customer who does not place order
+SELECT
+    customers.customer_id,
+    customers.first_name,
+    orders.order_id
+FROM customers
+LEFT JOIN orders ON customers.customer_id = orders.customer_id
+WHERE orders.order_id IS NULL
+
+-- ! Give me order which have not been paid
+SELECT
+    o.order_id,
+    p.amount
+FROM orders AS o
+LEFT JOIN payments AS p ON o.order_id = p.order_id
+WHERE p.payment_id IS NULL;
+
+-- ! Give information about orders that are there in the DB Include info about order items, product, customer and category the product it belongs to
+
+-- orders -> order_id, customer_id
+-- order_items -> quantity, price, product_id, order_id
+-- products -> product_id, product_name, category_id
+-- customers -> customer_id, first_name, last_name
+-- category -> category_id, category_name
+
+SELECT
+    o.order_id,
+    CONCAT(c.first_name,' ',c.last_name) AS customer_name,
+    o.status,
+    p.product_name,
+    ct.category_name,
+    oi.quantity,
+    (oi.unit_price * oi.quantity) AS total_price
+
+FROM orders AS o
+JOIN order_items AS oi ON o.order_id = oi.order_id
+JOIN products AS p ON oi.product_id = p.product_id
+JOIN customers AS c ON o.customer_id = c.customer_id
+JOIN categories AS ct ON p.category_id = ct.category_id
+
+-- ! Give me info about employees including their manager's info
+SELECT
+    CONCAT(e.first_name, ' ', e.last_name) AS employee_name,
+    e.employee_id,
+    CONCAT(m.first_name,' ',m.last_name) AS manager_name,
+    COALESCE(m.employee_id::TEXT, 'no_manager') AS manager_id
+FROM employees AS e
+LEFT JOIN employees AS m ON e.manager_id = m.employee_id
+
