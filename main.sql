@@ -663,3 +663,5 @@ SELECT
 FROM employees AS e
 LEFT JOIN employees AS m ON e.manager_id = m.employee_id
 
+
+--> Aggregate in SQL -->
