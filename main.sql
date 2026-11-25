@@ -761,3 +761,5 @@ HAVING
     SUM(e.salary) > 200000
     AND COUNT(*) > 1
 
+
+--> SQL Subqueries -->
