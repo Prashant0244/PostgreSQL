@@ -763,3 +763,72 @@ HAVING
 
 
 --> SQL Subqueries -->
+
+-- ! Give me all the customer having at least one cancelled order
+SELECT * FROM orders;
+
+UPDATE orders
+SET status = 'cancelled'
+WHERE order_id = 7
+
+SELECT * FROM customers;
+
+SELECT 
+    o.order_id,
+    o.customer_id,
+    CONCAT(c.first_name, ' ', C.last_name) AS name
+FROM orders AS o
+INNER JOIN customers AS c ON o.customer_id = c.customer_id
+WHERE o.status = 'cancelled';
+
+SELECT * FROM customers
+WHERE customer_id IN (7, 9, 18, 11);
+
+SELECT * FROM customers
+WHERE customer_id IN (
+    SELECT customer_id FROM orders WHERE status = 'cancelled'
+);
+
+-- ! Give me all the products which are having price > average price across all products
+SELECT *
+FROM products
+WHERE price > (
+    SELECT AVG(price) 
+    FROM products
+);
+
+-- ! Give me sales on category level where category sales > 500
+-- electronics - 30000
+-- clothing - 4000
+
+SELECT * FROM order_items
+SELECT * FROM products
+SELECT * FROM categories
+-- without subquery
+SELECT 
+    c.category_name,
+    SUM(oi.quantity*oi.unit_price) AS total_sales
+FROM order_items AS oi
+LEFT JOIN products AS p 
+    ON oi.product_id = p.product_id
+LEFT JOIN categories AS c
+    ON p.category_id = c.category_id
+GROUP BY 
+    c.category_name
+HAVING SUM(oi.quantity*oi.unit_price) > 500
+
+-- with subquery (with derived table)
+SELECT *
+FROM (
+    SELECT 
+        c.category_name,
+        SUM(oi.quantity*oi.unit_price) AS total_sales
+    FROM order_items AS oi
+    LEFT JOIN products AS p 
+        ON oi.product_id = p.product_id
+    LEFT JOIN categories AS c
+        ON p.category_id = c.category_id
+    GROUP BY 
+        c.category_name)
+WHERE total_sales > 500;
+
