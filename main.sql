@@ -704,3 +704,60 @@ SELECT
     SUM(stock_quantity) AS total_stocks
 FROM products
 
+
+--> GROUP BY and HAVING -->
+
+-- ! Give me total number of product in each category
+SELECT
+    category_id,
+    COUNT(*)
+FROM products
+GROUP BY category_id;
+
+-- ! Give me total number of active and inactive products in each category
+SELECT
+    category_id,
+    COUNT(*),
+    is_active
+FROM products
+GROUP BY category_id, is_active;
+
+-- ! Give me total number of product in each category, include category name in the result
+
+SELECT
+    p.category_id,
+    c.category_name,
+    COUNT(*)
+FROM products AS p
+JOIN categories AS c ON p.category_id = c.category_id
+GROUP BY
+    p.category_id, 
+    c.category_name
+
+-- ! Give me total number of product in category which have products > 5
+SELECT
+    category_id,
+    COUNT(*)
+FROM products
+GROUP BY category_id
+HAVING COUNT(*) > 5;
+-- When aggregating the query then we need to use HAVING clause to filter it.
+
+-- ! Find department having more than one managed employee, where their combined salary of whole department exceeds 200000 rupees.
+--departments -> department_id, department_name
+--employees -> department_id, salary
+SELECT
+    e.department_id,
+    d.department_name,
+    COUNT(*) AS emp_count,
+    SUM(e.salary) AS dep_salary
+FROM employees AS e
+LEFT JOIN departments AS d ON d.department_id = e.department_id
+WHERE e.manager_id IS NOT NULL
+GROUP BY 
+    e.department_id, 
+    d.department_name
+HAVING 
+    SUM(e.salary) > 200000
+    AND COUNT(*) > 1
+
