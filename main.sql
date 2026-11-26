@@ -832,3 +832,5 @@ FROM (
         c.category_name)
 WHERE total_sales > 500;
 
+
+--> Common Table Expression (CTEs) -->
