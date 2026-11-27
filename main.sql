@@ -834,3 +834,117 @@ WHERE total_sales > 500;
 
 
 --> Common Table Expression (CTEs) -->
+
+-- WITH var_name AS (
+--     ...query
+-- )
+
+WITH temp_table AS (
+    SELECT 
+        c.category_name,
+        SUM(oi.quantity*oi.unit_price) AS total_sales
+    FROM order_items AS oi
+    LEFT JOIN products AS p 
+        ON oi.product_id = p.product_id
+    LEFT JOIN categories AS c
+        ON p.category_id = c.category_id
+    GROUP BY 
+        c.category_name
+)
+SELECT *
+FROM temp_table
+WHERE total_sales > 500;
+
+
+WITH cat_table AS (
+    SELECT 
+        p.category_id,
+        c.category_name,
+        SUM(oi.quantity*oi.unit_price) AS total_sales
+    FROM order_items AS oi
+    LEFT JOIN products AS p 
+        ON oi.product_id = p.product_id
+    LEFT JOIN categories AS c
+        ON p.category_id = c.category_id
+    GROUP BY 
+        p.category_id,
+        c.category_name
+),
+hsc AS (
+    SELECT * FROM cat_table
+    ORDER BY total_sales DESC
+    LIMIT 1
+)
+SELECT * FROM hsc;
+
+
+-- ! Reusability
+
+-- ! Give me total spend of a customer
+-- ! Also give me average spend of all customer
+-- ! Also give me flag TRUE or FALSE basis of if the customer have above average spending
+
+WITH customer_total AS (
+    SELECT
+        o.customer_id,
+        SUM(oi.quantity * oi.unit_price) AS customer_spend
+    FROM orders AS o
+    LEFT JOIN order_items AS oi ON o.order_id = oi.order_id
+    WHERE o.status = 'completed'
+    GROUP BY o.customer_id
+)
+SELECT 
+    ct.customer_id,
+    ct.customer_spend,
+    (SELECT ROUND(AVG(customer_spend),2) FROM customer_total) AS avg_spend,
+    ct.customer_spend > (SELECT ROUND(AVG(customer_spend),2) FROM customer_total) AS is_above_avg
+FROM customer_total AS ct;
+
+
+
+
+-- Subquery version of above query (used chatgpt) to show how CTE improve readability
+SELECT
+    ct.customer_id,
+    ct.customer_spend,
+    (
+        SELECT ROUND(AVG(customer_spend), 2)
+        FROM (
+            SELECT
+                o.customer_id,
+                SUM(oi.quantity * oi.unit_price) AS customer_spend
+            FROM orders AS o
+            LEFT JOIN order_items AS oi
+                ON o.order_id = oi.order_id
+            WHERE o.status = 'completed'
+            GROUP BY o.customer_id
+        ) AS customer_total
+    ) AS avg_spend,
+
+    ct.customer_spend > (
+        SELECT AVG(customer_spend)
+        FROM (
+            SELECT
+                o.customer_id,
+                SUM(oi.quantity * oi.unit_price) AS customer_spend
+            FROM orders AS o
+            LEFT JOIN order_items AS oi
+                ON o.order_id = oi.order_id
+            WHERE o.status = 'completed'
+            GROUP BY o.customer_id
+        ) AS customer_total
+    ) AS is_above_avg
+
+FROM (
+    SELECT
+        o.customer_id,
+        SUM(oi.quantity * oi.unit_price) AS customer_spend
+    FROM orders AS o
+    LEFT JOIN order_items AS oi
+        ON o.order_id = oi.order_id
+    WHERE o.status = 'completed'
+    GROUP BY o.customer_id
+) AS ct;
+-- this is drawback of subquery therefore use CTE
+
+
