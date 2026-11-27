@@ -949,3 +949,49 @@ FROM (
 
 
 --> SQL Window Functions -->
+
+-- ! Give me total product's price sum on category level
+
+SELECT * FROM categories; -- category_id, category_name
+SELECT * FROM products; -- category_id, price, stock_quantity
+
+SELECT
+    c.category_id,
+    c.category_name,
+    SUM(p.price*p.stock_quantity) AS category_price
+FROM
+    categories AS c
+LEFT JOIN
+    products AS p ON c.category_id = p.category_id
+GROUP BY
+    c.category_id,
+    c.category_name;
+
+-- Window Function - A Window Function performs a calculation across a set of related rows without combining those rows into a single row.
+SELECT
+    c.category_id,
+    p.product_name,
+    c.category_name,
+    SUM(p.price*p.stock_quantity) OVER (PARTITION BY c.category_id) AS category_total_price
+FROM
+    categories AS c
+LEFT JOIN
+    products AS p ON c.category_id = p.category_id;
+
+
+-- ! Give me average price across all the products, without affecting or reducing table structure
+SELECT
+    *,
+    AVG(price) OVER(PARTITION BY category_id) AS avg_price
+FROM products;
+
+-- ! Give me rank to a product based on how pricy it is
+SELECT
+    product_name,
+    price,
+    ROW_NUMBER() OVER(ORDER BY price) AS prod_row_on_price,
+    RANK() OVER(ORDER BY price) AS prod_rank_on_price,
+    DENSE_RANK() OVER(ORDER BY price) AS prod_dense_rank_on_price
+FROM products;
+
+
