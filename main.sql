@@ -995,3 +995,4 @@ SELECT
 FROM products;
 
 
+--> UNION and UNION ALL -->
