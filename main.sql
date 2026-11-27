@@ -996,3 +996,16 @@ FROM products;
 
 
 --> UNION and UNION ALL -->
+-- Both combines vertically
+
+SELECT first_name, last_name FROM employees
+UNION ALL
+SELECT first_name, last_name FROM customers
+-- UNION ALL keeps all rows, including duplicates
+
+SELECT first_name, last_name, 'employee' AS role FROM employees
+UNION
+SELECT first_name, last_name, 'customer' AS role FROM customers
+-- UNION removes duplicate rows
+
+
