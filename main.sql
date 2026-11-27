@@ -948,3 +948,4 @@ FROM (
 -- this is drawback of subquery therefore use CTE
 
 
+--> SQL Window Functions -->
